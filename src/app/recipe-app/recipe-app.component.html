@@ -1,0 +1,58 @@
+<div class="container">
+
+    <div class="row mt-3">
+        <h1 class="mb-3">Recipe App</h1>
+        <form [formGroup]="recipeForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">Recipe Title:</label>
+                <input type="text" id="title" formControlName="title" required class="form-control">
+            </div>
+            
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredient List:</label>
+                <select class="form-select" formControlName="ingredients" aria-placeholder="Open this select Ingredients" id="ingredients">
+                    <option>Onion, Tomato, Capsicum, Cheese</option>
+                    <option>Onion, Garlic, Ginger</option>
+                    <option>Salad Dressing, Fat-Free, Veges</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="instructions" class="form-label">Recipe Instructions:</label>
+                <textarea id="instructions" formControlName="instructions" class="form-control" required></textarea>
+            </div>
+            
+            <button (click)="addRecipe()" type="button" class="btn btn-outline-primary">Add</button>
+        </form>
+    </div>
+    
+    <div *ngFor="let recipe of recipes; let i = index" class="card mt-3" style="width: 18rem;">
+        <div class="card-body">
+            <h2 class="card-title">RECIPES</h2>
+            
+            <h4 *ngIf="!recipe.editing" class="card-subtitle mb-2 text-muted">Recipe Title: {{ recipe.title }}</h4>
+            <input class="form-control mb-2" *ngIf="recipe.editing" [(ngModel)]="editRecipeData.title" required>
+            
+            <p *ngIf="!recipe.editing" class="card-text">Ingredient List: {{ recipe.ingredients }}</p>
+            <select *ngIf="recipe.editing" [(ngModel)]="editRecipeData.ingredients" required class="form-select mb-2">
+                <option>Onion, Tomato, Capsicum, Cheese</option>
+                <option>Onion, Garlic, Ginger</option>
+                <option>Salad Dressing, Fat-Free, Veges</option>
+            </select>
+            
+            <p *ngIf="!recipe.editing" class="card-text">Recipe Instructions: {{ recipe.instructions }}</p>
+            <textarea *ngIf="recipe.editing" [(ngModel)]="editRecipeData.instructions" required class="form-control mb-2"></textarea>
+            
+            <div *ngIf="!recipe.editing">
+                <button (click)="editRecipe(i)" class="btn btn-outline-success me-2"><i class="fa fa-edit"></i> Edit</button>
+                <button (click)="deleteRecipe(i)" class="btn btn-outline-danger"><i class="fa fa-trash-o"></i> Delete</button>
+            </div>
+            
+            <div *ngIf="recipe.editing" class="mt-2">
+                <button (click)="updateRecipe(i)" class="btn btn-outline-success me-2"><i class="fa fa-check"></i> Update</button>
+                <button (click)="cancelEdit(i)" class="btn btn-outline-secondary"><i class="fa fa-close"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
